@@ -141,4 +141,10 @@ t_plus_Z_n : (n : Nat) -> plusn 0 n = n
 t_plus_Z_n n = Refl
 
 t_plus_1_1 : (n : Nat) -> plusn 1 n = S n
-t_plus_1_1 n = ?t_plus_1_1_rhs
+t_plus_1_1 n = Refl
+
+plus_id_example : (n : Nat) ->
+                  (m : Nat) ->
+                  n = m ->
+                  n `plusn` m = m `plusn` n
+plus_id_example n m prf = ?plus_id_example_rhs
