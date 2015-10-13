@@ -188,6 +188,10 @@ count_empty = ?count_empty1
 add_empty : (n : Nat) -> add n [] = [n]
 add_empty n = Refl
 
+count_n : (n : Nat) -> count n $ the Bag [n] = 1
+count_n Z = ?count_n_rhs_1
+count_n (S k) = ?count_n_rhs_2
+
 add_count_empty : (n : Nat) -> count n $ add n [] = 1
 add_count_empty n = ?add_count_empty_rhs
 
@@ -199,6 +203,10 @@ bag_theorem n [] = ?bag_theorem_empty
 bag_theorem n (x :: xs) = ?bag_theorem_nonempty
 
 ---------- Proofs ----------
+
+Main.count_n_rhs_1 = proof
+  trivial
+
 
 Main.count_empty1 = proof
   intros
