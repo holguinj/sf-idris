@@ -20,6 +20,7 @@ surjective_pairing (Pair k j) = ?surjective_pairing_rhs_1
 snd_fst_is_swap : (p : Natprod) -> swap_pair p = Pair (snd p) (fst p)
 snd_fst_is_swap (Pair k j) = ?snd_fst_is_swap_rhs_1
 
+%elim -- allows inductive proofs on Natlist
 data Natlist : Type where
      Nil  : Natlist
      (::) : (x : Nat) -> (xs : Natlist) -> Natlist
@@ -188,28 +189,84 @@ count_empty = ?count_empty1
 add_empty : (n : Nat) -> add n [] = [n]
 add_empty n = Refl
 
-count_n : (n : Nat) -> count n $ the Bag [n] = 1
-count_n Z = ?count_n_rhs_1
-count_n (S k) = ?count_n_rhs_2
+-- bag_theorem : (n : Nat) ->
+--               (s : Bag) ->
+--               count n $ add n s = S $ count n s
+-- bag_theorem n [] = ?bag_theorem_empty
+-- bag_theorem n (x :: xs) = ?bag_theorem_nonempty
 
-add_count_empty : (n : Nat) -> count n $ add n [] = 1
-add_count_empty n = ?add_count_empty_rhs
+nil_app : (l : Natlist) -> [] ++ l = l
+nil_app l = Refl
 
+app_assoc : (l1 : Natlist) -> (l2 : Natlist) -> (l3 : Natlist) ->
+            (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3)
+app_assoc l1 l2 l3 = ?app_assoc
 
-bag_theorem : (n : Nat) ->
-              (s : Bag) ->
-              count n $ add n s = S $ count n s
-bag_theorem n [] = ?bag_theorem_empty
-bag_theorem n (x :: xs) = ?bag_theorem_nonempty
+app_length : (l1 : Natlist) -> (l2 : Natlist) ->
+             length (l1 ++ l2) = (length l1) + (length l2)
+app_length l1 l2 = ?app_length_rhs
+
+snoc : Natlist -> Nat -> Natlist
+snoc [] k = [k]
+snoc (x :: xs) k = x :: (snoc xs k)
+
+rev : (l : Natlist) -> Natlist
+rev [] = []
+rev (x :: xs) = snoc (rev xs) x
+
+length_snoc : (n : Nat) -> (l : Natlist) ->
+              length (snoc l n) = S (length l)
+length_snoc n l = ?length_snoc_rhs
+
+rev_length : (l : Natlist) ->
+             length (rev l) = length l
+rev_length l = ?rev_length_rhs
 
 ---------- Proofs ----------
 
-Main.count_n_rhs_1 = proof
+Main.length_snoc_rhs = proof
+  intros
+  induction l
+  compute -- simpl
+  trivial -- reflexivity
+  intro n0
+  intro l0
+  intro inductive_hyp
+  compute
+  rewrite inductive_hyp 
+  trivial
+
+
+Main.app_length_rhs = proof
+  intros
+  induction l1
+  compute
+  trivial
+  intro n
+  intro list
+  intro inductive_hyp
+  rewrite inductive_hyp 
+  compute
+  rewrite inductive_hyp 
   trivial
 
 
 Main.count_empty1 = proof
   intros
+  trivial
+
+
+Main.app_assoc1 = proof
+  intros
+  induction l1
+  compute
+  trivial
+  intro n
+  intro l
+  intro inductive_hyp
+  rewrite inductive_hyp 
+  compute
+  rewrite inductive_hyp 
   trivial
 
 
