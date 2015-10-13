@@ -1,6 +1,9 @@
 module Main
 
+%default total
+
 data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+
 
 next_weekday : (d : Day) -> Day
 next_weekday d =
@@ -147,4 +150,50 @@ plus_id_example : (n : Nat) ->
                   (m : Nat) ->
                   n = m ->
                   n `plusn` m = m `plusn` n
-plus_id_example n m prf = ?plus_id_example_rhs
+plus_id_example n m prf = ?plus_id_proof
+
+beq_nat : (n : Nat) -> (m : Nat) -> Bool
+beq_nat n m = case n of
+                   Z => case m of
+                             Z => True
+                             S m' => False
+                   S n' => case m of
+                                Z => False
+                                S m' => beq_nat n' m'
+
+plus_1_neq_0 : (n : Nat) ->
+               beq_nat (plusn 1 n) 0 = False
+plus_1_neq_0 Z = ?plus_2
+plus_1_neq_0 (S k) = ?plus_3
+
+total
+double_neg : (b : Bool) -> (negb . negb) b = b
+double_neg False = Refl
+double_neg True = Refl
+
+minus_diag : (n : Nat) -> minus n n = 0
+minus_diag n = ?minus_diag_rhs
+
+---------- Proofs ----------
+
+Main.plus_id_proof = proof
+  intros
+  rewrite prf
+  trivial
+
+
+-- Main.minus_diag_rhs = proof
+--   intros
+--   induction n
+--   trivial
+--   intros
+--   trivial
+
+
+Main.plus_2 = proof
+  trivial
+
+Main.plus_3 = proof
+  intros
+  trivial
+
